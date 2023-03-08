@@ -1,48 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Card, CardImg, CardText, CardTitle, CardBody, ListGroup, ListGroupItem, Button } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Card, CardImg, CardText, CardTitle, CardBody, ListGroup, ListGroupItem } from "reactstrap"
+import { NavLink } from "react-router-dom"
 
 
 const RestaurantIndex = ({ restaurants }) => {
-
-  const startIndex = 0
   const [endIndex, setEndIndex] = useState(4)
-  const visibleRestaurants = restaurants.slice(startIndex, endIndex)
-  const [todaysPick, setTodaysPick] = useState(null)
-
+  const [todaysPick, setTodaysPick] = useState(restaurants[0])
+  const visibleRestaurants = restaurants.slice(0, endIndex)
 
   const handleLoadMore = () => {
     setEndIndex(prevEndIndex => prevEndIndex + 4)
   }
-
-  const randomRestaurant = () => {
-    localStorage.setItem('lastRandomRestaurantDate', new Date().toLocaleDateString())
-    // console.log(localStorage)
-    const randomIndex = Math.floor(Math.random() * restaurants.length)
-    let test = restaurants[randomIndex]
-    // console.log(test)
-    setTodaysPick(restaurants[randomIndex])
-  }
-  const timer = setInterval(() => {
-    randomRestaurant();
-  }, 10000);
-
 
   const navigate = useNavigate()
   const toRestaurant = () => {
     navigate(`/restaurantshow/${todaysPick?.id}`)
   }
   useEffect(() => {
-    // const storedRestaurant = localStorage.getItem("currentRestaurant");
-    // // console.log(JSON.parse(storedRestaurant))
-    // if (storedRestaurant) {
-    //   setTodaysPick(JSON.parse(storedRestaurant));
-    // } else {
-      randomRestaurant();
-    
-    return () => clearInterval(timer);
-  }, [timer]);
+  }, [])
 
   return (
     <>
@@ -71,7 +47,6 @@ const RestaurantIndex = ({ restaurants }) => {
                 {` ${todaysPick?.cuisine}`}
               </CardText>
               <CardText>
-                Average Rating:
                 {(todaysPick?.avg_rating >= 1 && todaysPick?.avg_rating < 2) && ' ★☆☆☆☆'}
                 {(todaysPick?.avg_rating >= 2 && todaysPick?.avg_rating < 3) && ' ★★☆☆☆'}
                 {(todaysPick?.avg_rating >= 3 && todaysPick?.avg_rating < 4) && ' ★★★☆☆'}
@@ -86,7 +61,7 @@ const RestaurantIndex = ({ restaurants }) => {
         </div>
 
         <h3 style={{ marginLeft: '10vw' }}>See the rest:</h3>
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', width: '1300px' }}>
           {visibleRestaurants?.map((restaurant, index) => {
             return (
               <Card
@@ -94,7 +69,7 @@ const RestaurantIndex = ({ restaurants }) => {
                 style={{
                   display: 'inline-flex',
                   margin: '15px',
-                  width: '16rem',
+                  width: '256px',
                   height: '450px',
                   justifyContent: 'space-around'
                 }}
@@ -118,20 +93,20 @@ const RestaurantIndex = ({ restaurants }) => {
                 </CardBody>
                 <ListGroup flush>
                   <ListGroupItem>
-                    Average Rating:
-                    {(restaurant.avg_rating >= 1 && restaurant.avg_rating < 2) && '★☆☆☆☆'}
-                    {(restaurant.avg_rating >= 2 && restaurant.avg_rating < 3) && '★★☆☆☆'}
-                    {(restaurant.avg_rating >= 3 && restaurant.avg_rating < 4) && '★★★☆☆'}
-                    {(restaurant.avg_rating >= 4 && restaurant.avg_rating < 5) && '★★★★☆'}
-                    {restaurant.avg_rating === 5 && '★★★★★'}
-                    <br />
-                    Total Reviews: {restaurant.number_of_reviews}
-                  </ListGroupItem>
-                  <ListGroupItem>
                     {restaurant.cuisine}
                   </ListGroupItem>
+                  <ListGroupItem>                    
+                    {(restaurant.avg_rating >= 1 && restaurant.avg_rating < 2) && ' ★☆☆☆☆'}
+                    {(restaurant.avg_rating >= 2 && restaurant.avg_rating < 3) && ' ★★☆☆☆'}
+                    {(restaurant.avg_rating >= 3 && restaurant.avg_rating < 4) && ' ★★★☆☆'}
+                    {(restaurant.avg_rating >= 4 && restaurant.avg_rating < 5) && ' ★★★★☆'}
+                    {restaurant.avg_rating === 5 && ' ★★★★★'}
+                  </ListGroupItem>
                   <ListGroupItem>
-                    Price Range: {restaurant.price_range || '(None Provided)'}
+                     {restaurant.number_of_reviews} reviews
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {restaurant.price_range || '(None Provided)'}
                   </ListGroupItem>
                 </ListGroup>
                 <CardBody style={{
