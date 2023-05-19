@@ -14,7 +14,7 @@
 
 This web application was created for the food enthusiast inside us all, replacing the customer experience with the food experience.  Users can access restaurants and their respective reviews, where only the food gets judged.
 
-**LIVE LINK:** [Gourmandize](https://gourmandize-e0kd.onrender.com)
+**LIVE LINK:** [Gourmandize](https://gourmandize-e0kd.onrender.com) (Hosted on free version of render, please be patient)
 
 ## Features
 
